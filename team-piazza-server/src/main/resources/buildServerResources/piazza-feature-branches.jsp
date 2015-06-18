@@ -16,7 +16,7 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   --%>
-<c:if test="<%=!project.getFeatureBranchesView().getFeatureBranches().isEmpty()%>">
+<c:if test="${not empty project.featureBranchesView.featureBranches}">
     <div class="FeatureBranches">
         <h2>Feature Branches</h2>
 

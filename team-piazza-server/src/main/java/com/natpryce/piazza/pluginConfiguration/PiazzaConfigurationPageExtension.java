@@ -57,6 +57,8 @@ public class PiazzaConfigurationPageExtension extends AdminPage {
     public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
         super.fillModel(model, request);
         model.put("showOnFailureOnly", piazzaConfiguration.isShowOnFailureOnly());
+        model.put("allowAnonymous", piazzaConfiguration.isAllowAnonymous());
+        model.put("displayColumns", piazzaConfiguration.getDisplayColumns());
         model.put("resourceRoot", this.piazza.resourcePath(""));
     }
 

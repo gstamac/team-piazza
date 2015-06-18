@@ -20,7 +20,9 @@
 var Piazza = {
         save: function () {
             BS.ajaxRequest($('piazzaForm').action, {
-                    parameters: 'showOnFailureOnly=' + $('showOnFailureOnly').checked,
+                    parameters: 'showOnFailureOnly=' + $('showOnFailureOnly').checked +
+                        '&allowAnonymous=' + $('allowAnonymous').checked +
+                        '&displayColumns=' + $('displayColumns').value,
                     onComplete: function (transport) {
                         if (transport.responseXML) {
                             BS.XMLResponse.processErrors(transport.responseXML, {

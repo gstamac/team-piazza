@@ -19,6 +19,7 @@
 package com.natpryce.piazza;
 
 import com.natpryce.piazza.projectConfiguration.PiazzaProjectSettings;
+import com.natpryce.piazza.pluginConfiguration.PiazzaConfiguration;
 import jetbrains.buildServer.controllers.BaseController;
 import jetbrains.buildServer.serverSide.ProjectManager;
 import jetbrains.buildServer.serverSide.SBuildServer;
@@ -32,6 +33,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import jetbrains.buildServer.log.Loggers;
+
+import java.util.*;
 
 public class BuildMonitorController extends BaseController {
 
@@ -56,8 +61,9 @@ public class BuildMonitorController extends BaseController {
         } else if (requestHasParameter(request, PROJECT_ID)) {
             return showProject(request.getParameter(PROJECT_ID), Boolean.parseBoolean(request.getParameter(SHOW_FEATURE_BRANCH_BUILDS_ONLY)), response);
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "no build type id specified");
-            return null;
+            return showAllProjects(Boolean.parseBoolean(request.getParameter(SHOW_FEATURE_BRANCH_BUILDS_ONLY)), response);
+            //response.sendError(HttpServletResponse.SC_BAD_REQUEST, "no build type id specified");
+            //return null;
         }
     }
 
@@ -83,6 +89,42 @@ public class BuildMonitorController extends BaseController {
         String view = showFeatureBranchBuildsOnly ? "piazza-project-monitor-feature-branches.jsp" : "piazza-project-monitor.jsp";
 
         return modelWithView(view).addObject("project", new ProjectMonitorViewState(project, piazza.userGroup(), piazza.getConfiguration(), projectSettings, associatedUser));
+    }
+
+    private ModelAndView showAllProjects(boolean showFeatureBranchBuildsOnly, HttpServletResponse response) throws IOException {
+        List<SProject> projects = projectManager.getActiveProjects();
+        if (projects == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "no active projects");
+            return null;
+        }
+
+		SUser associatedUser = getAssociatedUser();
+		UserGroup userGroup = piazza.userGroup();
+		PiazzaConfiguration configuration = piazza.getConfiguration();
+
+		ArrayList<ProjectMonitorViewState> viewProjects = new ArrayList<ProjectMonitorViewState>();
+		boolean anyProjectBuilding = false;
+
+		for (SProject project : projects) {
+			if (project.getProjectId() != SProject.ROOT_PROJECT_ID)
+			{
+				PiazzaProjectSettings projectSettings = (PiazzaProjectSettings) projectSettingsManager.getSettings(project.getProjectId(), PiazzaProjectSettings.PROJECT_SETTINGS_NAME);
+
+				ProjectMonitorViewState projectViewState = new ProjectMonitorViewState(project, userGroup, configuration, projectSettings, associatedUser);
+				if (projectViewState.getBuilds().size() > 0)
+				{
+					if (projectViewState.isBuilding()) anyProjectBuilding = true;
+
+					viewProjects.add(projectViewState);
+				}
+			}
+		}
+
+        return modelWithView("piazza-projects-monitor.jsp")
+				.addObject("projects", viewProjects)
+				.addObject("columns", configuration.getDisplayColumns())
+				.addObject("showFeatureBranchBuildsOnly", showFeatureBranchBuildsOnly)
+				.addObject("anyProjectBuilding", anyProjectBuilding);
     }
 
     private ModelAndView modelWithView(String viewJSP) {

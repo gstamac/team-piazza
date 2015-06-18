@@ -1,0 +1,155 @@
+/*
+ * Copyright (c) 2011 Nat Pryce, Timo Meinen.
+ *
+ * This file is part of Team Piazza.
+ *
+ * Team Piazza is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Team Piazza is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
+*,
+*:before,
+*:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+    font-family: tahoma, arial, sans-serif;
+    font-size: 18px;
+    padding: 16px;
+    background-image: url("background.jpg");
+	color: white;
+}
+
+.Projects {
+	display: flex; 
+	flex-direction: row; 
+	flex-wrap: wrap; 
+	justify-content: space-between; 
+	align-items: flex-start;
+}
+
+.Project {
+    border-radius: 10px;
+	padding: 0px;
+	background: #444450;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
+	margin-bottom: 30px;
+	width: 49%;
+}
+
+.ProjectName {
+    border-radius: 10px 10px 0px 0px;
+	padding: 5px 10px; 
+    font-size: 22px;
+	font-weight: bold;
+	background: #343440;
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+}
+
+.ProjectName.Success {
+	background: #127A3A;
+}
+
+.ProjectName.Failure {
+	background: #911818;
+}
+
+.Build {
+    position: relative;
+    background-color: #545460;
+	margin: 1px 0px;
+	height: 40px;
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+}
+
+.Build:last-child {
+    border-radius: 0px 0px 10px 10px;
+}
+
+.Build.Building {
+    background-color: #329A5A;
+}
+
+.Build.Success {
+    background-color: #329A5A;
+}
+
+.Build.Failure {
+    background-color: #B13838;
+}
+
+.ProgressBar {
+    position: absolute;
+	top: 0;
+    left: 0;
+	z-index: 0;
+    border: none;
+	height: 100%;
+    background-color: rgba(255,255,255,0.3);
+    overflow: hidden;
+	border-radius: 0px 10px 10px 0px;
+}
+
+.Build:last-child .ProgressBar {
+    border-radius: 0px 10px 10px 10px;
+}
+
+.BuildDescription {
+    position: absolute;
+	top: 0;
+    left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	font-weight: bold;
+	margin: 0; 
+	display: table;
+}
+
+.BuildDescription div {
+	vertical-align: middle;
+	display: table-cell;
+	padding: 0 10px;
+}
+
+.BuildName {
+}
+
+.BranchName {
+	font-weight: normal;
+    background-color: rgba(0,0,0,0.4);
+	padding: 1px 5px;
+    border-radius: 5px;
+	font-size: 16px;
+	color: rgba(255,255,255,0.9);
+	text-shadow: none;
+}
+
+.Activity {
+	font-size: 12px;
+	opacity: 0.8;
+	text-align: right;
+}
+
+.Version {
+    position: fixed;
+    bottom: 4px;
+    right: 4px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+}

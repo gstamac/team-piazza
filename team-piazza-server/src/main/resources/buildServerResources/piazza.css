@@ -19,8 +19,7 @@
 body {
     font-family: tahoma, arial, sans-serif;
     padding: 16px;
-    background-position: top right;
-    background-repeat: no-repeat;
+    background-image: url("background.jpg");
 }
 
 body.Success {
@@ -75,6 +74,7 @@ h3 {
     padding: 8px;
     margin: 8px;
     border: solid 3px;
+    border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 }
@@ -166,6 +166,8 @@ h3 {
     vertical-align: middle;
     overflow-x: visible;
     white-space: nowrap;
+
+	box-sizing: border-box;
 }
 
 .Activity.Success {

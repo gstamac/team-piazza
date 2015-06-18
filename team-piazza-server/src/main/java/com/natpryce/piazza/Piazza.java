@@ -28,6 +28,7 @@ import jetbrains.buildServer.users.UserModel;
 import jetbrains.buildServer.web.openapi.PlaceId;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
+import jetbrains.buildServer.controllers.AuthorizationInterceptor;
 
 public class Piazza {
 
@@ -40,7 +41,7 @@ public class Piazza {
     private final PiazzaConfiguration piazzaConfiguration;
     private final SUser guestUser;
 
-    public Piazza(SBuildServer server, ProjectManager projectManager, ProjectSettingsManager projectSettingsManager, WebControllerManager webControllerManager,
+    public Piazza(SBuildServer server, AuthorizationInterceptor authorizationInterceptor, ProjectManager projectManager, ProjectSettingsManager projectSettingsManager, WebControllerManager webControllerManager,
                   PluginDescriptor pluginDescriptor, UserModel userManager, SecurityContext securityContext, PiazzaConfiguration piazzaConfiguration) {
         this.pluginDescriptor = pluginDescriptor;
         this.securityContext = securityContext;
@@ -51,6 +52,10 @@ public class Piazza {
 
         webControllerManager.registerController(PATH, new BuildMonitorController(server, projectManager, projectSettingsManager, this));
         webControllerManager.getPlaceById(PlaceId.ALL_PAGES_FOOTER).addExtension(new PiazzaLinkPageExtension(this));
+
+		if (piazzaConfiguration.isAllowAnonymous()) {
+			authorizationInterceptor.addPathNotRequiringAuth(PATH);
+		}
     }
 
     public String resourcePath(String resourceName) {

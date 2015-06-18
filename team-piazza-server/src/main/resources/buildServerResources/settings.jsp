@@ -43,6 +43,25 @@
                 </td>
             </tr>
             <tr>
+                <th>Allow Anonymous</th>
+                <td>
+                    <p>
+                        <forms:checkbox name="allowAnonymous" checked="${allowAnonymous}"/>
+                        <label for="allowAnonymous">Allow anonymous user to view status (needs server restart)</label>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <th>Number of columns</th>
+                <td>
+                    <p>
+                        <input type="text" id="displayColumns" value="${displayColumns}"
+                               accept="number" maxlength="3" size="3"/>
+                        <label for="displayColumns">Number of columns in multi project view</label>
+                    </p>
+                </td>
+            </tr>
+            <tr>
                 <th>Save Settings:</th>
                 <td>
                     <div>

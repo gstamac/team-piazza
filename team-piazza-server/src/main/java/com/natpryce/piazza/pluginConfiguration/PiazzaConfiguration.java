@@ -37,10 +37,14 @@ public class PiazzaConfiguration {
 
     static final String XML_ROOT_NAME = "piazza";
     private static final String XML_ATTRIBUTE_NAME_SHOW_ON_FAILURE_ONLY = "showOnFailureOnly";
+    private static final String XML_ATTRIBUTE_NAME_DISPLAY_COLUMNS = "displayColumns";
+    private static final String XML_ATTRIBUTE_NAME_ALLOW_ANONYMOUS = "allowAnonymous";
 
     static final String CONFIG_FILE_NAME = "piazza.xml";
     String configFileName = CONFIG_FILE_NAME;
     private boolean showOnFailureOnly;
+	private boolean allowAnonymous;
+    private int displayColumns;
     private String teamCityConfigDir;
 
     public PiazzaConfiguration(@NotNull ServerPaths serverPaths) {
@@ -60,6 +64,8 @@ public class PiazzaConfiguration {
     Element createConfigAsXml() {
         Element piazzaConfigRoot = new Element(XML_ROOT_NAME);
         piazzaConfigRoot.setAttribute(XML_ATTRIBUTE_NAME_SHOW_ON_FAILURE_ONLY, String.valueOf(showOnFailureOnly));
+        piazzaConfigRoot.setAttribute(XML_ATTRIBUTE_NAME_ALLOW_ANONYMOUS, String.valueOf(allowAnonymous));
+        piazzaConfigRoot.setAttribute(XML_ATTRIBUTE_NAME_DISPLAY_COLUMNS, String.valueOf(displayColumns));
         return piazzaConfigRoot;
     }
 
@@ -104,6 +110,8 @@ public class PiazzaConfiguration {
 
     private void parseConfigFromXml(Element rootElement) {
         this.showOnFailureOnly = Boolean.parseBoolean(rootElement.getAttributeValue(XML_ATTRIBUTE_NAME_SHOW_ON_FAILURE_ONLY, String.valueOf(false)));
+        this.allowAnonymous = Boolean.parseBoolean(rootElement.getAttributeValue(XML_ATTRIBUTE_NAME_ALLOW_ANONYMOUS, String.valueOf(false)));
+        this.displayColumns = Integer.parseInt(rootElement.getAttributeValue(XML_ATTRIBUTE_NAME_DISPLAY_COLUMNS, String.valueOf(2)));
     }
 
     public boolean isShowOnFailureOnly() {
@@ -112,6 +120,22 @@ public class PiazzaConfiguration {
 
     public void setShowOnFailureOnly(boolean showOnFailureOnly) {
         this.showOnFailureOnly = showOnFailureOnly;
+    }
+
+    public boolean isAllowAnonymous() {
+        return allowAnonymous;
+    }
+
+    public void setAllowAnonymous(boolean allowAnonymous) {
+        this.allowAnonymous = allowAnonymous;
+    }
+
+    public int getDisplayColumns() {
+        return displayColumns;
+    }
+
+    public void setDisplayColumns(int displayColumns) {
+        this.displayColumns = displayColumns;
     }
 
     public void setTeamCityConfigDir(@NotNull String teamCityConfigDir) {

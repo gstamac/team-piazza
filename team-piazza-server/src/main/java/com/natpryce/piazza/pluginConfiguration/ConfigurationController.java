@@ -43,6 +43,8 @@ public class ConfigurationController extends BaseController {
     @Override
     protected ModelAndView doHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
         this.piazzaConfiguration.setShowOnFailureOnly(getShowOnFailureOnlyValueFromView(request));
+        this.piazzaConfiguration.setAllowAnonymous(getAllowAnonymousValueFromView(request));
+        this.piazzaConfiguration.setDisplayColumns(getDisplayColumnsValueFromView(request));
 
         updateConfiguration(request);
         return null;
@@ -62,11 +64,27 @@ public class ConfigurationController extends BaseController {
         return getBooleanParameter(request, "showOnFailureOnly");
     }
 
+    private boolean getAllowAnonymousValueFromView(HttpServletRequest request) {
+        return getBooleanParameter(request, "allowAnonymous");
+    }
+
+	private int getDisplayColumnsValueFromView(HttpServletRequest request) {
+        return getIntParameter(request, "displayColumns");
+    }
+
     private boolean getBooleanParameter(HttpServletRequest request, String parameterName) {
         String parameter = request.getParameter(parameterName);
         if (parameter == null)
             return false;
         return Boolean.valueOf(parameter);
+    }
+
+    private int getIntParameter(HttpServletRequest request, String parameterName) {
+        String parameter = request.getParameter(parameterName);
+        if (parameter == null) {
+            return 0;
+        }
+        return Integer.parseInt(parameter);
     }
 
     private void addSuccessMessage(HttpServletRequest request) {
