@@ -29,8 +29,8 @@ body {
     font-family: tahoma, arial, sans-serif;
     font-size: 18px;
     padding: 16px;
-    background-image: url("background.jpg");
 	color: white;
+    background-image: url("background.png");
 }
 
 .Projects {

@@ -43,7 +43,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 <%--@elvariable id="project" type="com.natpryce.piazza.ProjectMonitorViewState"--%>
 <c:forEach var="project" items="${projects}">
 	<div class="Project ${project.status}" style="width: ${columnWidth}%;">
-		<div class="ProjectName ${project.status}">${project.projectName}</div>
+		<div class="ProjectName ${project.status}">${project.projectPath}</div>
 		<div class="Builds">
 			<c:if test="${not showFeatureBranchBuildsOnly}">
 				<%--@elvariable id="build" type="com.natpryce.piazza.BuildTypeMonitorViewState"--%>

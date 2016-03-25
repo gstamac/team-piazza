@@ -50,7 +50,7 @@ public class ProjectMonitorViewState {
 
         builds = new ArrayList<>();
         for (SBuildType buildType : project.getBuildTypes()) {
-            if (hasAtLeastOneBuild(buildType)) {
+            if (buildType.getProject() != null && buildType.getProject().getProjectId() == project.getProjectId() && hasAtLeastOneBuild(buildType)) {
                 if (buildType.isAllowExternalStatus()) {
                     builds.add(new BuildTypeMonitorViewState(buildType, userGroup, configuration.isShowOnFailureOnly()));
                 }
@@ -78,6 +78,20 @@ public class ProjectMonitorViewState {
 
     public String getProjectName() {
         return project.getName();
+    }
+
+    public String getProjectPath() {
+		String path = project.getName();
+
+		SProject parentProject = project.getParentProject();
+		while (parentProject != null && parentProject.getProjectId() != SProject.ROOT_PROJECT_ID)
+		{
+			path = parentProject.getName() + " > " + path;
+
+			parentProject = parentProject.getParentProject();
+		}
+
+		return path;
     }
 
     public String getStatus() {
